@@ -24,7 +24,7 @@ const useStackAnimation = <ParamList extends TParamList>() => {
     const context = useContext<TStackAnimation<ParamList> | undefined>(GetStackAnimationContext as (Context<TStackAnimation<ParamList> | undefined>));
 
     if (context === undefined) {
-        throw new Error('useCodePushContext must be used within a CodePushContextProvider');
+        throw new Error('useStackAnimation must be used within a GetStackAnimationContextProvider');
     }
 
     return context;

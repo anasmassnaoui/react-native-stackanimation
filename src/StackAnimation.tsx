@@ -66,7 +66,7 @@ type AnimationParams = {
     onAnimationFinish?: () => void
 }
 
-type AnimatoToParams<Props> = AnimationParams & (Props extends undefined ? {} : { props: Props })
+type AnimatoToParams<Props> = AnimationParams & (Props extends undefined ? {} : { props?: Props })
 
 export type StackAnimationRef<ParamList extends TParamList> = {
     animateTo: <ScreenName extends keyof ParamList>(screenName: ScreenName, params: AnimatoToParams<ParamList[ScreenName]>) => void
@@ -89,20 +89,12 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
 
         const { props: screenProps } = useGetProps();
 
-        const renderChildren = useMemo(() => {
-            if (typeof props.children === 'function') {
-                const initialProps = (props as any).initialProps as ParamList[ScreenName];
-                return props.children(screenProps ?? initialProps);
-            } else {
-                return props.children;
-            }
-        }, [props, screenProps]);
-
-        return (
-            <React.Fragment>
-                {renderChildren}
-            </React.Fragment>
-        );
+        if (typeof props.children === 'function') {
+            const initialProps = (props as any).initialProps as ParamList[ScreenName];
+            return props.children(screenProps ?? initialProps);
+        } else {
+            return props.children;
+        }
     };
 
     Stack = React.forwardRef<StackAnimationRef<ParamList>, StackProps<ParamList>>(({ children, initialName, containerStyle }: StackProps<ParamList>, ref: ForwardedRef<StackAnimationRef<ParamList>>) => {
