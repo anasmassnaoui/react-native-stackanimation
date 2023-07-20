@@ -52,7 +52,7 @@ type ScreenProps<ParamList extends TParamList, ScreenName extends keyof ParamLis
 } & (ParamList[ScreenName] extends undefined ? {} : { initialProps: ParamList[ScreenName] })
 
 type StackProps<ParamList extends TParamList> = {
-    initialName?: keyof ParamList;
+    initialScreen?: keyof ParamList;
     children: ReactElement | ReactElement[],
     containerStyle?: StyleProp<ViewStyle>,
 }
@@ -90,14 +90,22 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
         const { props: screenProps } = useGetProps();
 
         if (typeof props.children === 'function') {
-            const initialProps = (props as any).initialProps as ParamList[ScreenName];
-            return props.children(screenProps ?? initialProps);
+            const Child = props.children;
+            return (
+                <React.Fragment>
+                    <Child {...screenProps} />
+                </React.Fragment>
+            );
         } else {
-            return props.children;
+            return (
+                <React.Fragment>
+                    {props.children}
+                </React.Fragment>
+            );
         }
     };
 
-    Stack = React.forwardRef<StackAnimationRef<ParamList>, StackProps<ParamList>>(({ children, initialName, containerStyle }: StackProps<ParamList>, ref: ForwardedRef<StackAnimationRef<ParamList>>) => {
+    Stack = React.forwardRef<StackAnimationRef<ParamList>, StackProps<ParamList>>(({ children, initialScreen, containerStyle }: StackProps<ParamList>, ref: ForwardedRef<StackAnimationRef<ParamList>>) => {
 
         const childrenEntries: Screen<ParamList, keyof ParamList>[] = useMemo(() => {
             return React.Children.map(children, (screen: ReactElement) => {
@@ -113,8 +121,8 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
             }).filter(entry => entry !== undefined);
         }, [children]);
 
-        const mainChild = useMemo(() => childrenEntries.find(entry => entry.name === initialName) || childrenEntries[0], [childrenEntries, initialName]);
-        const initComponentMap = useCallback(() => ComponentMap.create([mainChild]), [mainChild]);
+        const mainChild = useMemo(() => childrenEntries.find(entry => entry.name === initialScreen) || childrenEntries[0], [childrenEntries, initialScreen]);
+        const initComponentMap = useCallback(() => ComponentMap.create(mainChild ? [mainChild] : []), [mainChild]);
 
         const [containerSize, setContainerSize] = useState({ containerWidth: 0, containerHeight: 0 });
         const [view, setView] = useState(initComponentMap());
@@ -136,7 +144,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
             const screen = childrenEntries.find(entry => entry.name === screenName);
             const isAnimating = view.size > 1;
             if (screen && !isAnimating) {
-                const { timing, inEffect, outEffect, props, onAnimationFinish } = params as AnimationParams & { props: ParamList[ScreenName] };
+                const { timing, inEffect, outEffect, props, onAnimationFinish } = params as AnimationParams & { props?: ParamList[ScreenName] };
                 const InEffect = (typeof inEffect === 'string' || !inEffect) ? getEffect(inEffect) : inEffect;
                 const OutEffect = (typeof outEffect === 'string' || !outEffect) ? getOutEffect(typeof inEffect !== 'string' ? undefined : inEffect) : outEffect;
                 const key = view.getKeys()[0];
@@ -169,9 +177,9 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
                                 {screen.selfComponent}
                             </InEffect>
                         ),
-                        props,
+                        props: props ?? screen.props,
                     });
-                    history.current.add({ name: screen.name, selfComponent: screen.selfComponent, props }, newKey);
+                    history.current.add({ name: screen.name, selfComponent: screen.selfComponent, props: props ?? screen.props }, newKey);
                     setView(newView);
                 } else {
                     console.warn('current screen not found!');
@@ -232,9 +240,19 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
         }), [animateBack, animateTo]);
 
         useEffect(() => {
-            setView(initComponentMap());
-            history.current = initComponentMap();
-        }, [initComponentMap, mainChild]);
+            const keys = history.current.getKeys();
+            const lastKey = keys[keys.length - 1];
+            const currentScreen = history.current.get(lastKey);
+            if (currentScreen) {
+                const updatedScreen = childrenEntries.find(entry => entry.name === currentScreen.name);
+                if (updatedScreen) {
+                    const newView = ComponentMap.create<Screen<ParamList, keyof ParamList>>([]);
+                    history.current.set(lastKey, updatedScreen);
+                    newView.set(lastKey, updatedScreen);
+                    setView(newView);
+                }
+            }
+        }, [childrenEntries]);
 
         const onLayout = useCallback((e: LayoutChangeEvent) => {
             const { width, height } = e.nativeEvent.layout;
@@ -248,7 +266,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
             [containerSize.containerHeight, containerSize.containerWidth, containerStyle, view.size]
         );
 
-        if (!mainChild) {
+        if (view.size === 0) {
             console.warn('Stack must have at least one screen');
             return (
                 <React.Fragment>
