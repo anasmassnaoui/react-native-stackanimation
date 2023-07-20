@@ -65,7 +65,7 @@ const ThirdScreen = ({ name }: ScreenParams['third_screen']) => {
     const { animateBack, animateTo, isAnimating } = useStackAnimation<ScreenParams>();
     return (
         <View style={{ backgroundColor: '#f0f', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 30 }}>Second Screen</Text>
+            <Text style={{ fontSize: 30 }}>Third Screen</Text>
             <Text style={{ fontSize: 25 }}>Name: {name}</Text>
             <Text style={{ fontSize: 25 }}>isAnimating: {isAnimating ? 'true' : 'false'}</Text>
 
