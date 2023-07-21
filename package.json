@@ -1,0 +1,26 @@
+{
+    "name": "react-native-stackanimation",
+    "version": "1.0.0",
+    "description": "lightweight library for react native to manage components/screens with animation",
+    "main": "src/index.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/anasmassnaoui/React-Native-StackAnimation.git"
+    },
+    "keywords": [
+        "react-native",
+        "animations",
+        "screen",
+        "tabs",
+        "navigation"
+    ],
+    "author": "Anass MASSNAOUI",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/anasmassnaoui/React-Native-StackAnimation/issues"
+    },
+    "homepage": "https://github.com/anasmassnaoui/React-Native-StackAnimation#readme"
+}
