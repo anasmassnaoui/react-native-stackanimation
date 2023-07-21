@@ -1,8 +1,11 @@
 # React-Native-StackAnimation
 lightweight library for react native to manage components/screens with animation
 
-## Example
+## Demo
+### this example can be found on https://snack.expo.dev/@amassnao/react-native-stackanimation-example
+![](https://github.com/anasmassnaoui/React-Native-StackAnimation/blob/main/Demo.gif)
 
+## Example Code
 ```ts
 import React, { useRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
@@ -87,5 +90,3 @@ const ThirdScreen = ({ name }: ScreenParams['third_screen']) => {
 
 export { Example };
 ```
-## Demo
-![](https://github.com/anasmassnaoui/React-Native-StackAnimation/blob/main/Demo.gif)
