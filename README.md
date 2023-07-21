@@ -1,6 +1,7 @@
 # React-Native-StackAnimation
 lightweight library for react native to manage components/screens with animation
 
+[![badge](https://img.shields.io/npm/v/react-native-stackanimation.svg)](https://www.npmjs.com/package/react-native-stackanimation) 
 ## Demo
 ### this example can be found on https://snack.expo.dev/@amassnao/react-native-stackanimation-example
 ![](https://github.com/anasmassnaoui/React-Native-StackAnimation/blob/main/Demo.gif)
