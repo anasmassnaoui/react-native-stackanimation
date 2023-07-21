@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { createStackAnimation, StackAnimationRef, useStackAnimation } from './src';
+import { createStackAnimation, StackAnimationRef, useStackAnimation } from 'react-native-stackanimation';
 
 type ScreenParams = {
     'first_screen': undefined,
