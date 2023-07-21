@@ -6,7 +6,7 @@ lightweight library for react native to manage components/screens with animation
 ```ts
 import React, { useRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { createStackAnimation, StackAnimationRef, useStackAnimation } from 'React-Native-StackAnimation/src';
+import { createStackAnimation, StackAnimationRef, useStackAnimation } from 'react-native-stackanimation';
 
 type ScreenParams = {
     'first_screen': undefined,
