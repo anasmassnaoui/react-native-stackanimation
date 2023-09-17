@@ -1,4 +1,4 @@
-import React, { ForwardRefExoticComponent, ForwardedRef, ReactElement, ReactNode, RefAttributes, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { ForwardRefExoticComponent, ForwardedRef, ReactElement, ReactNode, RefAttributes, useCallback, useLayoutEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { CustomEffectProps, FadeInEffect, FadeOutEffect, SlideDownInEffect, SlideDownOutEffect, SlideLeftInEffect, SlideLeftOutEffect, SlideRightInEffect, SlideRightOutEffect, SlideUpInEffect, SlideUpOutEffect } from './Effects';
 import { ComponentMap } from './ComponentMap';
 import { GetPropsContextProvider, useGetProps } from './useGetProps';
@@ -239,7 +239,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
             animateBack,
         }), [animateBack, animateTo]);
 
-        useEffect(() => {
+        useLayoutEffect(() => {
             const keys = history.current.getKeys();
             const lastKey = keys[keys.length - 1];
             const currentScreen = history.current.get(lastKey);
