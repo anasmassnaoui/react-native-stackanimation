@@ -4,10 +4,8 @@ import { useStackAnimation } from './useStackAnimation';
 export {
     createStackAnimation,
     useStackAnimation,
-};
-export type {
     StackAnimationRef,
     CustomEffect,
     InEffects,
-    OutEffect,
+    OutEffect
 };
