@@ -243,7 +243,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
             const keys = history.current.getKeys();
             const lastKey = keys[keys.length - 1];
             const currentScreen = history.current.get(lastKey);
-            if (currentScreen) {
+            if (currentScreen && view.size === 1) {
                 const updatedScreen = childrenEntries.find(entry => entry.name === currentScreen.name);
                 if (updatedScreen) {
                     const newView = ComponentMap.create<Screen<ParamList, keyof ParamList>>([]);
@@ -252,7 +252,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
                     setView(newView);
                 }
             }
-        }, [childrenEntries]);
+        }, [childrenEntries, view.size]);
 
         const onLayout = useCallback((e: LayoutChangeEvent) => {
             const { width, height } = e.nativeEvent.layout;
