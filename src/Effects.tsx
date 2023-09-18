@@ -89,7 +89,7 @@ const SlideRightInEffect = ({ children, onAnimationFinish, containerWidth, timin
                 }
             });
         }
-    });
+    }, [onAnimationFinish, timing]);
 
     return (
         <Animated.View style={[styles.slideEffect, styles.slideLeftRight, { transform: [{ translateX: animationRef.current }] }]}>
@@ -201,7 +201,7 @@ const SlideDownInEffect = ({ children, onAnimationFinish, containerHeight, timin
                 }
             });
         }
-    });
+    }, [onAnimationFinish, timing]);
 
     return (
         <Animated.View style={[styles.slideEffect, styles.slideUpDown, { transform: [{ translateY: animationRef.current }] }]}>
