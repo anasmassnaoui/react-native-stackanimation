@@ -5,7 +5,7 @@ import { GetPropsContextProvider, useGetProps } from './useGetProps';
 import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { GetStackAnimationContextProvider } from './useStackAnimation';
 
-const TIMING = 500;
+const TIMING = 800;
 
 export type InEffects = 'SlideLeftIn' | 'SlideRightIn' | 'SlideUpIn' | 'SlideDownIn' | 'FadeIn'
 export type OutEffect = 'SlideLeftOut' | 'SlideRightOut' | 'SlideUpOut' | 'SlideDownOut' | 'FadeOut'
@@ -169,7 +169,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
                         name: screen.name,
                         selfComponent: (
                             <InEffect
-                                timing={timing ?? TIMING}
+                                timing={(timing ?? TIMING) / 2}
                                 onAnimationFinish={() => whenAnimationFinish(onAnimationFinish)}
                                 containerWidth={containerSize.containerWidth}
                                 containerHeight={containerSize.containerHeight}
@@ -219,7 +219,7 @@ class StackAnimation<ParamList extends TParamList> implements IStackAnimation<Pa
                     name: lastScreen.name,
                     selfComponent: (
                         <InEffect
-                            timing={timing ?? TIMING}
+                            timing={(timing ?? TIMING) / 2}
                             onAnimationFinish={() => whenAnimationFinish(onAnimationFinish)}
                             containerWidth={containerSize.containerWidth}
                             containerHeight={containerSize.containerHeight}
