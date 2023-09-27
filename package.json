@@ -1,6 +1,6 @@
 {
     "name": "react-native-stackanimation",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "lightweight library for react native to manage components/screens with animation",
     "main": "src/index.ts",
     "scripts": {
